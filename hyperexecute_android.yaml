@@ -1,10 +1,8 @@
 version: "0.2"
 runson: android
+
 autosplit: true
-concurrency: 1
-jobLabel: [ 'high', 'Android', 'Appium']
-retryOnFailure: true
-maxRetries: 2
+concurrency: 2
 
 runtime:
   language: node
@@ -13,22 +11,22 @@ runtime:
 pre:
   - npm install
   - npx playwright install
+
 cacheKey: '{{ checksum "package-lock.json" }}'
 cacheDirectories:
   - node_modules
-testDiscovery:
-    command: cat pw_androidtests.txt
-    mode: static
-    type: raw
-testRunnerCommand: npm run test-android --verbose
-
 
 framework:
   name: appium
   args:
     playwrightRD : true
-    region: eu
+    region: us
 
+testDiscovery:
+  command: cat pw_androidtests.txt
+  mode: static
+  type: raw
 
-env:
-  INFRA_TIMEOUT: 2000
+testRunnerCommand: npm run test-android --verbose
+
+jobLabel: [ 'HYP', 'Playwright-RD', 'Android']

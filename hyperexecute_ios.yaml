@@ -1,0 +1,33 @@
+version: "0.2"
+runson: ios
+
+autosplit: true
+concurrency: 2
+
+runtime:
+  language: node
+  version: "18"
+
+pre:
+  - npm install
+  - npx playwright install
+  
+cacheKey: '{{ checksum "package-lock.json" }}'
+cacheDirectories:
+  - node_modules
+
+framework:
+  name: appium
+  args:
+    playwrightRD : true
+    region: us
+    mobileDC: true
+
+testDiscovery:
+  command: cat pw_iostests.txt
+  mode: static
+  type: raw
+
+testRunnerCommand: npm run test-ios --verbose
+
+jobLabel: [ 'HYP', 'Playwright-RD', 'iOS']
